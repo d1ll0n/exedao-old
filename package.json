@@ -1,0 +1,45 @@
+{
+  "private": true,
+  "homepage": "https://create-react-app-redux.now.sh",
+  "scripts": {
+    "deploy": "now && now alias",
+    "start": "react-scripts start",
+    "now-start": "serve -s ./build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "precommit": "pretty-quick --staged",
+    "sol:build": "cd ./src/sol && node compile && cd ../.."
+  },
+  "devDependencies": {
+    "fs-extra": "^8.0.1",
+    "mkdirp": "^0.5.1",
+    "prettier": "1.17.1",
+    "react-scripts": "2.1.8",
+    "rimraf": "^2.6.3"
+  },
+  "dependencies": {
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
+    "connected-react-router": "4.5.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-redux": "5.1.1",
+    "react-router": "4.4.0-beta.8",
+    "react-router-dom": "4.4.0-beta.8",
+    "redux": "4.0.1",
+    "redux-thunk": "2.3.0",
+    "sanitize.css": "7.0.3",
+    "serve": "10.1.2",
+    "solc": "^0.5.8",
+    "web3": "^1.0.0-beta.36",
+    "web3-react": "^5.0.4",
+    "web3-utils": "^1.0.0-beta.55"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
