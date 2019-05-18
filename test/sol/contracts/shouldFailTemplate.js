@@ -1,9 +1,9 @@
 module.exports = `
 pragma solidity >= 0.5.0;
 contract Payload {
-    event TestEvent(uint eventData);
+    uint[] arr;
     function () external payable {
-        PUT_CODE_HERE
+        arr.push(20);
     }
     
 

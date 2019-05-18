@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 5000"
+    "test": "mocha --timeout 5000",
+    "build": "cd ./sol && node compile && cd .."
   },
   "keywords": [],
   "author": "",
