@@ -27,7 +27,7 @@ class WalletVoting extends Component {
         this.setState({loading: true})
         const {bytecode} = this.state
         const {wallet} = this.props
-        const status = await wallet.methods.getPayloadStatus().call({ data: bytecode })
+        const status = await wallet.methods.getPayloadStatus(bytecode).call()
         console.log(status)
         this.setState({votes: status.yesVotes, loading: false})
     }

@@ -41,7 +41,7 @@ contract MegaWallet {
     proposal.yesVotes += 1;
     if (proposal.yesVotes < threshold) return;
     proposal.yesVotes = 0;
-    for (uint i = 0; i < owners.length; i++) proposal.voters[owners[i]] == false;
+    for (uint i = 0; i < owners.length; i++) proposal.voters[owners[i]] = false;
 
     assembly {
       let size := calldatasize

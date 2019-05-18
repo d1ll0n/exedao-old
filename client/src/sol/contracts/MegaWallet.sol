@@ -20,9 +20,8 @@ contract MegaWallet {
     threshold = _threshold;
   }
 
-  function getPayloadStatus () public view returns
+  function getPayloadStatus (bytes calldata payload) external view returns
   (uint) {
-    bytes memory payload = msg.data;
     bytes32 payloadHash = keccak256(payload);
     return payloads[payloadHash].yesVotes;
   }
@@ -35,14 +34,14 @@ contract MegaWallet {
 
   function () external payable {
     require(isOwner[msg.sender], "User not approved.");
-    bytes memory payload = msg.data;
-    bytes32 payloadHash = keccak256(payload);
+    bytes32 payloadHash = keccak256(msg.data);
     PendingCall storage proposal = payloads[payloadHash];
     require(!proposal.voters[msg.sender], "User has already voted.");
     proposal.voters[msg.sender] = true;
-    if (++proposal.yesVotes < threshold) return;
+    proposal.yesVotes += 1;
+    if (proposal.yesVotes < threshold) return;
     proposal.yesVotes = 0;
-    for (uint i = 0; i < owners.length; i++) proposal.voters[owners[i]] == false;
+    for (uint i = 0; i < owners.length; i++) proposal.voters[owners[i]] = false;
 
     assembly {
       let size := calldatasize
