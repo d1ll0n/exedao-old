@@ -1,87 +1,162 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
+import Typography from '@material-ui/core/Typography'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { soliditySha3 } from 'web3-utils'
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import SolInput from '../../components/SolInput'
+import { unstable_Box as Box } from '@material-ui/core/Box'
 
-const hashBytecode = bytecode => soliditySha3({
-    t: 'bytes',
-    v: bytecode
+const styles = theme => ({
+  box: {
+    marginTop: 50,
+    width: '65%'
+  },
+  inputBox: {
+    marginBottom: 30
+  },
+  buttonContainer: {
+    width: '30%',
+    marginBottom: 100
+  },
+  header: {
+    fontFamily: 'Monospace',
+    marginTop: 30,
+    marginBottom: 30
+  },
+  buttons: {
+    fontFamily: 'Monospace',
+    fontSize: 18
+  }
 })
 
+const hashBytecode = bytecode =>
+  soliditySha3({
+    t: 'bytes',
+    v: bytecode
+  })
+
 class WalletVoting extends Component {
-    state = {
-        bytecode: '',
-        votes: null,
-        loading: false
-    }
+  state = {
+    bytecode: '',
+    votes: null,
+    loading: false
+  }
 
-    componentDidMount = () => {
-        if (!this.props.wallet) this.props.changePage()
-    }
+  componentDidMount = () => {
+    if (!this.props.wallet) this.props.changePage()
+  }
 
-    checkVote = async () => {
-        this.setState({loading: true})
-        const {bytecode} = this.state
-        const {wallet} = this.props
-        const status = await wallet.methods.getPayloadStatus(bytecode).call()
-        console.log(status)
-        this.setState({votes: status.yesVotes, loading: false})
-    }
+  checkVote = async () => {
+    this.setState({ loading: true })
+    const { bytecode } = this.state
+    const { wallet } = this.props
+    const status = await wallet.methods.getPayloadStatus(bytecode).call()
+    console.log(status)
+    this.setState({ votes: status.yesVotes, loading: false })
+  }
 
-    placeVote = async () => {
-        const {bytecode} = this.state
-        const {web3, account, wallet} = this.props
-        const receipt = await web3.eth.sendTransaction({
-            from: account,
-            to: wallet._address || wallet.address,
-            data: bytecode,
-            gas: 600000
-        })
-        console.log(receipt)
-    }
+  placeVote = async () => {
+    const { bytecode } = this.state
+    const { web3, account, wallet } = this.props
+    const receipt = await web3.eth.sendTransaction({
+      from: account,
+      to: wallet._address || wallet.address,
+      data: bytecode,
+      gas: 600000
+    })
+    console.log(receipt)
+  }
 
-    handleInput = (bytecode) => {
-        console.log(bytecode)
-        console.log(`bytecode received -- hash ${hashBytecode(bytecode)}`)
-        this.setState({bytecode})
-    }
+  handleInput = bytecode => {
+    console.log(bytecode)
+    console.log(`bytecode received -- hash ${hashBytecode(bytecode)}`)
+    this.setState({ bytecode })
+  }
 
-    render() {
-        const {loading} = this.state
-        return (
-            <div>
-                <h1>Input some code, ya jabronester</h1>
-                <SolInput onSubmit={this.handleInput} />
-                {
-                    loading 
-                    ? 
-                        <div>
-                            <h1>Loading the vote count...</h1>
-                            <CircularProgress />
-                        </div>
-                    : ''
-                }
-                <Button onClick={this.checkVote}>Check Status</Button>
-                <Button onClick={this.placeVote}>Vote!</Button>
-            </div>
-        )
-    }
+  render() {
+    const { loading } = this.state
+    const { classes } = this.props
+    return (
+      <Grid container alignItems="center" justify="center">
+        <Box
+          className={classes.box}
+          color="white"
+          bgcolor="#C0C0C0"
+          border={1}
+          fontFamily="Monospace"
+          borderRadius={16}>
+          <Grid
+            container
+            alignItems="center"
+            justify="center"
+            direction="column">
+            <Grid item>
+              <Typography variant="h3" className={classes.header}>
+                CONTRACT PAYLOAD
+              </Typography>
+            </Grid>
+            <Grid item className={classes.inputBox}>
+              <SolInput onSubmit={this.handleInput} />
+            </Grid>
+            {loading ? (
+              <div>
+                <h1>Loading the vote count...</h1>
+                <CircularProgress />
+              </div>
+            ) : (
+              ''
+            )}
+            <Grid
+              container
+              alignItems="center"
+              justify="space-between"
+              direction="row"
+              className={classes.buttonContainer}>
+              <Button
+                className={classes.buttons}
+                variant="contained"
+                color="primary"
+                onClick={this.checkVote}>
+                Check Status
+              </Button>
+              <Button
+                className={classes.buttons}
+                variant="contained"
+                color="primary"
+                onClick={this.placeVote}>
+                Vote!
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Grid>
+    )
+  }
 }
 
 const mapStateToProps = ({ wallet, web3 }) => ({
-    isLoading: wallet.loadPending,
-    wallet: wallet.wallet,
-    threshold: wallet.threshold,
-    account: web3.accounts[0],
-    web3: web3.web3
+  isLoading: wallet.loadPending,
+  wallet: wallet.wallet,
+  threshold: wallet.threshold,
+  account: web3.accounts[0],
+  web3: web3.web3
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-    changePage: () => push('/')
-}, dispatch)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      changePage: () => push('/')
+    },
+    dispatch
+  )
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletVoting)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(WalletVoting))
