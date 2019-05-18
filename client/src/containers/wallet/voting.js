@@ -27,10 +27,9 @@ class WalletVoting extends Component {
         this.setState({loading: true})
         const {bytecode} = this.state
         const {wallet} = this.props
-        const codeHash = hashBytecode(bytecode)
-        const status = await wallet.methods.getPayloadStatus(codeHash).call()
-        this.setState({votes: status.yesVotes, loading: false})
+        const status = await wallet.methods.getPayloadStatus().call({ data: bytecode })
         console.log(status)
+        this.setState({votes: status.yesVotes, loading: false})
     }
 
     placeVote = async () => {
@@ -48,7 +47,7 @@ class WalletVoting extends Component {
     handleInput = (bytecode) => {
         console.log(bytecode)
         console.log(`bytecode received -- hash ${hashBytecode(bytecode)}`)
-        this.setState({ bytecode })
+        this.setState({bytecode})
     }
 
     render() {

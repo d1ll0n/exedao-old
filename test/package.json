@@ -1,0 +1,23 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --timeout 5000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "fs-extra": "^8.0.1",
+    "ganache-cli": "^6.4.3",
+    "mkdirp": "^0.5.1",
+    "mocha": "^6.1.4",
+    "path": "^0.12.7",
+    "rimraf": "^2.6.3",
+    "solc": "^0.5.8",
+    "web3": "^1.0.0-beta.36"
+  }
+}

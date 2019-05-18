@@ -32,8 +32,7 @@
     "sanitize.css": "7.0.3",
     "serve": "10.1.2",
     "solc": "^0.5.8",
-    "web3": "^1.0.0-beta.36",
-    "web3-react": "^5.0.4",
+    "web3": "1.0.0-beta.36",
     "web3-utils": "^1.0.0-beta.55"
   },
   "browserslist": [

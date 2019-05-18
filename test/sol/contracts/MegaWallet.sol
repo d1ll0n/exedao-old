@@ -20,8 +20,10 @@ contract MegaWallet {
     threshold = _threshold;
   }
 
-  function getPayloadStatus (bytes32 payloadHash) public view returns
+  function getPayloadStatus () public view returns
   (uint) {
+    bytes memory payload = msg.data;
+    bytes32 payloadHash = keccak256(payload);
     return payloads[payloadHash].yesVotes;
   }
 
