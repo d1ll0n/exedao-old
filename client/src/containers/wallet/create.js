@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
+import { Link } from 'react-router-dom'
 import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -32,11 +33,13 @@ const styles = theme => ({
   modal: {
     top: '2%',
     left: '2%',
-    width: '96%'
+    width: '96%',
+    height: '96%'
   },
   paper: {
     position: 'absolute',
     width: '80%',
+    height: '80%',
     outline: 'none',
     backgroundColor: 'lightgrey',
     paddingLeft: '20%'
@@ -46,7 +49,13 @@ const styles = theme => ({
   },
   loader: {
     marginTop: '30%'
-  }
+  },
+  button: {
+    height: 75,
+    fontFamily: 'Monospace',
+    fontSize: 18,
+    bottom: 0
+  },
 })
 
 class WalletMaker extends Component {
@@ -122,9 +131,8 @@ class WalletMaker extends Component {
     const { classes, changePage, isLoading, wallet } = this.props
     return (
       <Modal className={classes.modal} open={true}>
-        {isLoading ? (
-          this.renderLoading()
-        ) : (
+        <Grid container alignItems='center' justify='center'>
+        {isLoading ? this.renderLoading() : (
           <div style={getModalStyle()} className={classes.paper}>
             <h1>Enter Wallet Owners</h1>
             <TextField
@@ -135,13 +143,24 @@ class WalletMaker extends Component {
               onKeyPress={this.handleKeyDown}
             />
             {this.renderList()}
+            <Link to="/">
+              <Button
+                variant="contained"
+                color="warning"
+                className={classes.button}>
+                Cancel
+              </Button>
+            </Link>
             <Button
-              className={classes.input}
+              variant="contained"
+              color="primary"
+              className={classes.button}
               onClick={() => this.handleSubmit()}>
               Create!
             </Button>
           </div>
         )}
+        </Grid>
       </Modal>
     )
   }
@@ -157,7 +176,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       createWallet,
-      changePage: () => push('/')
+      changePage: () => push('/wallet/vote')
     },
     dispatch
   )

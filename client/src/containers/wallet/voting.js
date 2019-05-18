@@ -151,7 +151,7 @@ const mapStateToProps = ({ wallet, web3 }) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      changePage: () => push('/')
+      changePage: () => push('/wallet/vote')
     },
     dispatch
   )
