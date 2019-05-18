@@ -11,16 +11,20 @@ const rimraf = (p) => new Promise((resolve, reject) => rimrafCallback(p, (err) =
 
 const buildPath = path.join(__dirname, 'build');
 
-(async () => {
+const build = async (fileName) => {
   let out;
   try {
-    out = easySolc('MegaWallet', await fs.readFile(path.join(__dirname, 'contracts', 'MegaWallet.sol'), 'utf8'));
+    out = easySolc(fileName, await fs.readFile(path.join(__dirname, 'contracts', `${fileName}.sol`), 'utf8'));
   } catch (e) {
     if (e.errors) return e.errors.forEach((err) => console.error(err.formattedMessage));
     throw e;
   }
-  await rimraf(buildPath);
-  await mkdirp(buildPath);
-  await fs.writeFile(path.join(buildPath, 'MegaWallet.json'), JSON.stringify(out));
-  console.log('saved to ' + path.join('build', 'MegaWallet.json'));
-})().catch((err) => console.error(err.stack || err.message || err));
+  await fs.writeFile(path.join(buildPath, `${fileName}.json`), JSON.stringify(out));
+  console.log('saved to ' + path.join('build', `${fileName}.json`));
+}
+
+rimraf(buildPath)
+  .then(() => mkdirp(buildPath))
+  .then(() => build('M3gaWallet'))
+  .then(() => build('M3gastrar'))
+  .catch((err) => console.error(err.stack || err.message || err));

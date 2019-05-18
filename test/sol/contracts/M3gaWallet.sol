@@ -1,7 +1,7 @@
 pragma solidity >= 0.5.0;
 pragma experimental ABIEncoderV2;
 
-contract MegaWallet {
+contract M3gaWallet {
   struct PendingCall {
     mapping(address => bool) voters;
     uint yesVotes;
