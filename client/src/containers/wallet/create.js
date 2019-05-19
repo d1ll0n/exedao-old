@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Dialog from '@material-ui/core/Dialog'
+import { Link } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import Typography from '@material-ui/core/Typography'
 import CloseIcon from '@material-ui/icons/Close'
@@ -143,9 +144,11 @@ class WalletMaker extends Component {
                   Enter Wallet Owners
                 </Typography>
               </Grid>
-              <Button>
-                <CloseIcon className={classes.closeIcon} />
-              </Button>
+              <Link to="/">
+                <Button>
+                  <CloseIcon className={classes.closeIcon} />
+                </Button>
+              </Link>
               <Grid
                 container
                 justify="center"
@@ -175,6 +178,7 @@ class WalletMaker extends Component {
                   className={classes.input}
                   variant="contained"
                   color="primary"
+                  disabled={this.state.numSigs < 1}
                   onClick={() => this.handleSubmit()}>
                   Create!
                 </Button>

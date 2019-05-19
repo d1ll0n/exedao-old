@@ -84,9 +84,11 @@ class WalletLoader extends Component {
                   Enter Wallet Owners
                 </Typography>
               </Grid>
-              <Button>
-                <CloseIcon className={classes.closeIcon} />
-              </Button>
+              <Link to="/">
+                <Button>
+                  <CloseIcon className={classes.closeIcon} />
+                </Button>
+              </Link>
               <Grid
                 container
                 justify="center"
