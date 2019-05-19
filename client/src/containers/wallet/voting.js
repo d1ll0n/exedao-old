@@ -74,7 +74,7 @@ class WalletVoting extends Component {
       data: bytecode,
       gas: 600000
     })
-    if (receipt.logs.length) this.setState({ receipt })
+    if (receipt.logs.length) this.setState({ receipt, votesNeeded: 0 })
     else {
       const votes = await wallet.methods.getPayloadStatus(bytecode).call()
       this.setState({ votesNeeded: threshold - votes })
@@ -105,7 +105,7 @@ class WalletVoting extends Component {
             alignItems="center"
             justify="center"
             direction="column">
-            <h1 style={{color: 'black'}}>{wallet.address || wallet._address}</h1>
+            <h3 style={{color: 'black'}}>{wallet.address || wallet._address}</h3>
             <Grid item>
               <Typography variant="h3" className={classes.header}>
                 CONTRACT PAYLOAD
@@ -138,7 +138,7 @@ class WalletVoting extends Component {
               </Button>
             </Grid>
             <div className={classes.votes}>
-              {receipt ? (
+              {(!votesNeeded && receipt) ? (
                 `Executed!`
               ) : votesNeeded ? (
                 `${votesNeeded} Votes Needed`
