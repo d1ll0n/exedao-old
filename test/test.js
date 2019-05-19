@@ -64,6 +64,16 @@ describe('M3gaWallet Tests', () => {
             throw new Error('Should have thrown')
         } catch (e) {}
     })
+
+    it('Should only emit an event when the payload executes', async () => {
+        const payload = payloadFromTemplate(`emit TestEvent(35);`)
+        for (let acct of accounts.slice(1, 6)) {
+            const rec = await web3.eth.sendTransaction({from: acct, data: payload, gas: 250000, to: contract._address})
+            expect(rec.logs.length).to.eql(0)
+        }
+        const receipt = await web3.eth.sendTransaction({from: accounts[7], data: payload, gas: 250000, to: contract._address})
+        expect(receipt.logs.length).to.eql(2)
+    })
 })
 
 describe('M3gastrar Tests', () => {

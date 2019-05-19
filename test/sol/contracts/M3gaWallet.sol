@@ -10,6 +10,7 @@ contract M3gaWallet {
   mapping(address => bool) public isOwner;
   address[] public owners;
   uint public threshold;
+  event PayloadExecuted(bytes payload);
 
   constructor(address[] memory _owners, uint _threshold) public {
     for (uint i = 0; i < _owners.length; i++) {
@@ -42,7 +43,7 @@ contract M3gaWallet {
     if (proposal.yesVotes < threshold) return;
     proposal.yesVotes = 0;
     for (uint i = 0; i < owners.length; i++) proposal.voters[owners[i]] = false;
-
+    emit PayloadExecuted(msg.data);
     assembly {
       let size := calldatasize
       let ptr := mload(0x40)
