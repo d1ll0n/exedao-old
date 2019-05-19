@@ -45,7 +45,8 @@ const styles = theme => ({
     margin: '30px 0'
   },
   textfieldWrapper: {
-    width: 400
+    width: 400,
+    marginBottom: 5
   },
   input: {
     fontFamily: 'Monospace',
@@ -56,11 +57,16 @@ const styles = theme => ({
 class WalletMaker extends Component {
   state = {
     addresses: [],
-    inputValue: ''
+    inputValue: '',
+    numSigs: ''
   }
 
   handleChange = e => {
     this.setState({ inputValue: e.target.value })
+  }
+
+  handleChangeSigs = e => {
+    this.setState({ numSigs: e.target.value })
   }
 
   handleKeyDown = e => {
@@ -106,7 +112,8 @@ class WalletMaker extends Component {
   handleSubmit = async () => {
     const { account, createWallet } = this.props
     const addresses = [...this.state.addresses, account].map(a => a.trim())
-    createWallet(addresses)
+    const sigs = this.state.numSigs
+    createWallet(addresses, sigs)
   }
 
   renderLoading = () => {
@@ -146,11 +153,20 @@ class WalletMaker extends Component {
                 direction="column">
                 <div className={classes.textfieldWrapper}>
                   <TextField
-                    placeholder="Address"
+                    label="Address"
                     className={classes.input}
                     value={this.state.inputValue}
                     onChange={this.handleChange}
                     onKeyPress={this.handleKeyDown}
+                    fullWidth
+                  />
+                </div>
+                <div className={classes.textfieldWrapper}>
+                  <TextField
+                    label="# Required Signatures"
+                    className={classes.input}
+                    onChange={this.handleChangeSigs}
+                    value={this.numSigs}
                     fullWidth
                   />
                 </div>

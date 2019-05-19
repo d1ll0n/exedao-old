@@ -10,7 +10,7 @@ import { unstable_Box as Box } from '@material-ui/core/Box'
 
 const styles = theme => ({
   box: {
-    marginTop: 50,
+    marginTop: 100,
     width: '65%'
   },
   button: {
@@ -39,12 +39,11 @@ const styles = theme => ({
 })
 
 class Home extends Component {
-
   render() {
     const { account, loading, wallet, owners, classes } = this.props
     if (loading || !account) return this.renderLoading()
     return (
-        <Grid container alignItems="center" justify="center">
+      <Grid container alignItems="center" justify="center">
         <Box
           className={classes.box}
           color="white"
@@ -55,7 +54,7 @@ class Home extends Component {
           <Grid container alignItems="center" justify="center">
             <Grid item>
               <Typography variant="h2" className={classes.title}>
-                M3GA Wallet
+                M3GA WALLET
               </Typography>
             </Grid>
           </Grid>
