@@ -74,7 +74,7 @@ class Home extends Component {
                   variant="contained"
                   color="primary"
                   className={classes.button}>
-                  Create a new M3gaWallet
+                  Create a new EXEdao
                 </Button>
               </Link>
             </Grid>
@@ -89,7 +89,7 @@ class Home extends Component {
                   variant="contained"
                   color="primary"
                   className={classes.button}>
-                  Load an existing M3gaWallet
+                  Load an existing EXEdao
                 </Button>
               </Link>
             </Grid>

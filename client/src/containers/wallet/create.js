@@ -141,7 +141,7 @@ class WalletMaker extends Component {
             <Grid container justify="space-between">
               <Grid item className={classes.header}>
                 <Typography className={classes.title}>
-                  Enter Wallet Owners
+                  Enter DAO members
                 </Typography>
               </Grid>
               <Link to="/">
