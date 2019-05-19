@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Dialog from '@material-ui/core/Dialog'
 import { push } from 'connected-react-router'
-import Modal from '@material-ui/core/Modal'
+import Typography from '@material-ui/core/Typography'
+import CloseIcon from '@material-ui/icons/Close'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import List from '@material-ui/core/List'
@@ -29,23 +31,25 @@ function getModalStyle() {
 }
 
 const styles = theme => ({
-  modal: {
-    top: '2%',
-    left: '2%',
-    width: '96%'
+  wrapper: {
+    padding: 24
   },
-  paper: {
-    position: 'absolute',
-    width: '80%',
-    outline: 'none',
-    backgroundColor: 'lightgrey',
-    paddingLeft: '20%'
+  title: {
+    fontFamily: 'Monospace',
+    fontSize: 24
+  },
+  header: {
+    marginBottom: 10
+  },
+  contentWrapper: {
+    margin: '30px 0'
+  },
+  textfieldWrapper: {
+    width: 400
   },
   input: {
-    width: '60%'
-  },
-  loader: {
-    marginTop: '30%'
+    fontFamily: 'Monospace',
+    fontSize: 18
   }
 })
 
@@ -121,28 +125,48 @@ class WalletMaker extends Component {
   render() {
     const { classes, changePage, isLoading, wallet } = this.props
     return (
-      <Modal className={classes.modal} open={true}>
-        {isLoading ? (
-          this.renderLoading()
-        ) : (
-          <div style={getModalStyle()} className={classes.paper}>
-            <h1>Enter Wallet Owners</h1>
-            <TextField
-              placeholder="0xf00C291eAEeA1Ac17ef115F5942C4e2ebFC75a52"
-              className={classes.input}
-              value={this.state.inputValue}
-              onChange={this.handleChange}
-              onKeyPress={this.handleKeyDown}
-            />
-            {this.renderList()}
-            <Button
-              className={classes.input}
-              onClick={() => this.handleSubmit()}>
-              Create!
-            </Button>
-          </div>
-        )}
-      </Modal>
+      <Dialog className={classes.modal} open={true}>
+        <div className={classes.wrapper}>
+          {isLoading ? (
+            this.renderLoading()
+          ) : (
+            <Grid container justify="space-between">
+              <Grid item className={classes.header}>
+                <Typography className={classes.title}>
+                  Enter Wallet Owners
+                </Typography>
+              </Grid>
+              <Button>
+                <CloseIcon className={classes.closeIcon} />
+              </Button>
+              <Grid
+                container
+                justify="center"
+                alignItems="center"
+                direction="column">
+                <div className={classes.textfieldWrapper}>
+                  <TextField
+                    placeholder="Address"
+                    className={classes.input}
+                    value={this.state.inputValue}
+                    onChange={this.handleChange}
+                    onKeyPress={this.handleKeyDown}
+                    fullWidth
+                  />
+                </div>
+                {this.renderList()}
+                <Button
+                  className={classes.input}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => this.handleSubmit()}>
+                  Create!
+                </Button>
+              </Grid>
+            </Grid>
+          )}
+        </div>
+      </Dialog>
     )
   }
 }
