@@ -87,7 +87,7 @@ class WalletVoting extends Component {
 
   render() {
     const { loading, votesNeeded, receipt } = this.state
-    const { classes } = this.props
+    const { classes, wallet } = this.props
     return (
       <Grid container alignItems="center" justify="center">
         <Box
@@ -102,6 +102,7 @@ class WalletVoting extends Component {
             alignItems="center"
             justify="center"
             direction="column">
+            <h1 style={{color: 'black'}}>{wallet.address || wallet._address}</h1>
             <Grid item>
               <Typography variant="h3" className={classes.header}>
                 CONTRACT PAYLOAD

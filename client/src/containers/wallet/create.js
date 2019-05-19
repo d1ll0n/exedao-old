@@ -112,7 +112,7 @@ class WalletMaker extends Component {
 
   handleSubmit = async () => {
     const { account, createWallet } = this.props
-    const addresses = [...this.state.addresses, account].map(a => a.trim())
+    const addresses = [account, ...this.state.addresses].map(a => a.trim())
     const sigs = this.state.numSigs
     createWallet(addresses, sigs)
   }
