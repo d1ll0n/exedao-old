@@ -34,16 +34,6 @@ contract M3gaWallet {
   }
 
   function () external payable {
-    require(isOwner[msg.sender], "User not approved.");
-    bytes32 payloadHash = keccak256(msg.data);
-    PendingCall storage proposal = payloads[payloadHash];
-    require(!proposal.voters[msg.sender], "User has already voted.");
-    proposal.voters[msg.sender] = true;
-    proposal.yesVotes += 1;
-    if (proposal.yesVotes < threshold) return;
-    proposal.yesVotes = 0;
-    for (uint i = 0; i < owners.length; i++) proposal.voters[owners[i]] = false;
-    emit PayloadExecuted(msg.data);
     assembly {
       let size := calldatasize
       let ptr := mload(0x40)
@@ -56,6 +46,14 @@ contract M3gaWallet {
         case 0x55 {
           // sstore handler -- no need to sstore, just revert
           mstore8(add(start, i), 0xfd)
+        }
+        case 0xf2 {
+          // callcode handler -- no need to callcode, don't want to circumvent sstore
+          mstore(add(start, i), 0xfd)
+        }
+        case 0xf4 {
+          // delegatecall handler -- we don't need to delegate in a temporary contract, can only be used to circumvent sstore
+          mstore(add(start, i), 0xfd)
         }
         default {
           let isPush := and(lt(op, 0x80), gt(op, 0x5f))
