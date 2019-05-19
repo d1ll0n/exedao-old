@@ -3,8 +3,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Dialog from '@material-ui/core/Dialog'
 import { push } from 'connected-react-router'
+<<<<<<< HEAD
 import Typography from '@material-ui/core/Typography'
 import CloseIcon from '@material-ui/icons/Close'
+=======
+import { Link } from 'react-router-dom'
+import Modal from '@material-ui/core/Modal'
+>>>>>>> e3f85a0ed4fb90a1babc6e6f942317c3fbd73dc0
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import List from '@material-ui/core/List'
@@ -181,7 +186,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       createWallet,
-      changePage: () => push('/')
+      changePage: () => push('/wallet/vote')
     },
     dispatch
   )

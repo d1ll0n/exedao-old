@@ -6,10 +6,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadWeb3 } from '../../actions/web3'
 import { Button, CircularProgress, Grid, Typography } from '@material-ui/core'
+import { unstable_Box as Box } from '@material-ui/core/Box'
 import WalletMaker from '../wallet/create'
 import WalletLoader from '../wallet/load'
 import WalletVoter from '../wallet/voting'
-import { unstable_Box as Box } from '@material-ui/core/Box'
+import Home from '../home'
 
 const styles = theme => ({
   box: {
@@ -48,66 +49,17 @@ class App extends Component {
   }
 
   renderHeader = () => {
-    const { wallet, owners, classes } = this.props
-    if (!wallet) {
-      return (
-        <Grid container alignItems="center" justify="center">
-          <Box
-            className={classes.box}
-            color="white"
-            bgcolor="#C0C0C0"
-            border={1}
-            fontFamily="Monospace"
-            borderRadius={16}>
-            <Grid container alignItems="center" justify="center">
-              <Grid item>
-                <Typography variant="h2" className={classes.title}>
-                  M3GA Wallet
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              alignItems="center"
-              justify="center"
-              direction="row"
-              className={classes.content}>
-              <Grid item>
-                <Link to="/wallet/create" className={classes.link}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}>
-                    Create a new M3gaWallet
-                  </Button>
-                </Link>
-              </Grid>
-              <Grid item>
-                <Typography variant="h4" className={classes.subheader}>
-                  OR
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Link to="/wallet/load">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}>
-                    Load an existing M3gaWallet
-                  </Button>
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Grid>
-      )
-    }
-    return (
-      <header>
-        <Link to="/wallet/create">GO BACK</Link>
-        <Link to="/wallet/vote">Make some votes bitch</Link>
-      </header>
-    )
+    const { classes } = this.props
+    return <header>
+      <Link to="/">
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}>
+          Home
+        </Button>
+      </Link>
+    </header>
   }
 
   renderLoading = () => (
@@ -119,6 +71,7 @@ class App extends Component {
 
   renderMain = () => (
     <main>
+      <Route exact path="/" component={Home} />
       <Route exact path="/wallet/create" component={WalletMaker} />
       <Route exact path="/wallet/load" component={WalletLoader} />
       <Route exact path="/wallet/vote" component={WalletVoter} />
@@ -149,7 +102,8 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       loadWeb3,
-      goHome: () => push('/')
+      goHome: () => push('/'),
+      goVote: () => push('/wallet/vote')
     },
     dispatch
   )
