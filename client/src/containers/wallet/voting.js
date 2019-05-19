@@ -21,8 +21,7 @@ const styles = theme => ({
     marginBottom: 30
   },
   buttonContainer: {
-    width: '30%',
-    marginBottom: 100
+    width: '30%'
   },
   header: {
     fontFamily: 'Monospace',
@@ -32,6 +31,10 @@ const styles = theme => ({
   buttons: {
     fontFamily: 'Monospace',
     fontSize: 18
+  },
+  votes: {
+    marginTop: 25,
+    marginBottom: 50
   }
 })
 
@@ -71,10 +74,10 @@ class WalletVoting extends Component {
       data: bytecode,
       gas: 600000
     })
-    if (receipt.logs.length) this.setState({receipt})
+    if (receipt.logs.length) this.setState({ receipt })
     else {
       const votes = await wallet.methods.getPayloadStatus(bytecode).call()
-      this.setState({votesNeeded: threshold - votes})
+      this.setState({ votesNeeded: threshold - votes })
     }
     console.log(receipt)
   }
@@ -92,10 +95,10 @@ class WalletVoting extends Component {
       <Grid container alignItems="center" justify="center">
         <Box
           className={classes.box}
-          color="white"
           bgcolor="#C0C0C0"
           border={1}
           fontFamily="Monospace"
+          fontSize={18}
           borderRadius={16}>
           <Grid
             container
@@ -111,7 +114,6 @@ class WalletVoting extends Component {
             <Grid item className={classes.inputBox}>
               <SolInput onSubmit={this.handleInput} />
             </Grid>
-            {receipt ? `Executed!` : votesNeeded ? `${votesNeeded} Votes Needed` : loading ? <CircularProgress /> : ''}
             <Grid
               container
               alignItems="center"
@@ -135,6 +137,17 @@ class WalletVoting extends Component {
                 Vote!
               </Button>
             </Grid>
+            <div className={classes.votes}>
+              {receipt ? (
+                `Executed!`
+              ) : votesNeeded ? (
+                `${votesNeeded} Votes Needed`
+              ) : loading ? (
+                <CircularProgress />
+              ) : (
+                ''
+              )}
+            </div>
           </Grid>
         </Box>
       </Grid>

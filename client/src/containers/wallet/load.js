@@ -81,7 +81,7 @@ class WalletLoader extends Component {
             <Grid container justify="space-between">
               <Grid item className={classes.header}>
                 <Typography className={classes.title}>
-                  Enter Wallet Owners
+                  Enter DAO Address
                 </Typography>
               </Grid>
               <Link to="/">
