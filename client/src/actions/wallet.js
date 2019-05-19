@@ -28,3 +28,7 @@ export const loadWallet = address => {
     dispatch({ type: UPDATE_WALLET, owners, threshold, wallet })
   }
 }
+
+export const clearStore = () => {
+  return dispatch => dispatch({type: 'CLEAR_STORE'})
+}

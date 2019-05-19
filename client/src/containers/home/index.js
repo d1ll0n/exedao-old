@@ -5,6 +5,7 @@ import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadWeb3 } from '../../actions/web3'
+import {clearStore} from '../../actions/wallet'
 import { Button, CircularProgress, Grid, Typography } from '@material-ui/core'
 import { unstable_Box as Box } from '@material-ui/core/Box'
 
@@ -39,6 +40,9 @@ const styles = theme => ({
 })
 
 class Home extends Component {
+  componentDidMount = () => {
+    this.props.clearStore()
+  }
   render() {
     const { account, loading, wallet, owners, classes } = this.props
     if (loading || !account) return this.renderLoading()
@@ -109,7 +113,8 @@ const mapDispatchToProps = dispatch =>
     {
       loadWeb3,
       goHome: () => push('/'),
-      goVote: () => push('/wallet/vote')
+      goVote: () => push('/wallet/vote'),
+      clearStore
     },
     dispatch
   )
