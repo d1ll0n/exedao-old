@@ -45,7 +45,9 @@ class WalletVoting extends Component {
   state = {
     bytecode: '',
     votes: null,
-    loading: false
+    loading: false,
+    votesNeeded: null,
+    receipt: null
   }
 
   componentDidMount = () => {
@@ -55,21 +57,25 @@ class WalletVoting extends Component {
   checkVote = async () => {
     this.setState({ loading: true })
     const { bytecode } = this.state
-    const { wallet } = this.props
-    const status = await wallet.methods.getPayloadStatus(bytecode).call()
-    console.log(status)
-    this.setState({ votes: status.yesVotes, loading: false })
+    const { wallet, threshold } = this.props
+    const votes = await wallet.methods.getPayloadStatus(bytecode).call()
+    this.setState({ votesNeeded: threshold - votes, loading: false })
   }
 
   placeVote = async () => {
     const { bytecode } = this.state
-    const { web3, account, wallet } = this.props
+    const { web3, account, wallet, threshold } = this.props
     const receipt = await web3.eth.sendTransaction({
       from: account,
       to: wallet._address || wallet.address,
       data: bytecode,
       gas: 600000
     })
+    if (receipt.logs.length) this.setState({receipt})
+    else {
+      const votes = await wallet.methods.getPayloadStatus(bytecode).call()
+      this.setState({votesNeeded: threshold - votes})
+    }
     console.log(receipt)
   }
 
@@ -80,7 +86,7 @@ class WalletVoting extends Component {
   }
 
   render() {
-    const { loading } = this.state
+    const { loading, votesNeeded, receipt } = this.state
     const { classes } = this.props
     return (
       <Grid container alignItems="center" justify="center">
@@ -104,14 +110,7 @@ class WalletVoting extends Component {
             <Grid item className={classes.inputBox}>
               <SolInput onSubmit={this.handleInput} />
             </Grid>
-            {loading ? (
-              <div>
-                <h1>Loading the vote count...</h1>
-                <CircularProgress />
-              </div>
-            ) : (
-              ''
-            )}
+            {receipt ? `Executed!` : votesNeeded ? `${votesNeeded} Votes Needed` : loading ? <CircularProgress /> : ''}
             <Grid
               container
               alignItems="center"
@@ -119,6 +118,7 @@ class WalletVoting extends Component {
               direction="row"
               className={classes.buttonContainer}>
               <Button
+                disabled={this.state.bytecode == ''}
                 className={classes.buttons}
                 variant="contained"
                 color="primary"
@@ -126,6 +126,7 @@ class WalletVoting extends Component {
                 Check Status
               </Button>
               <Button
+                disabled={this.state.bytecode == ''}
                 className={classes.buttons}
                 variant="contained"
                 color="primary"

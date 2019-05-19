@@ -1,5 +1,5 @@
 import {CREATE_WALLET, UPDATE_WALLET, LOAD_WALLET} from '../store/reducers/wallet'
-const {abi, bytecode: megaBytes} = require('../sol/build/MegaWallet')
+const {abi, bytecode: megaBytes} = require('../sol/build/M3gaWallet')
 
 export const createWallet = (owners) => {
     return async (dispatch, getState) => {
