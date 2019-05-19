@@ -6,15 +6,16 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadWeb3 } from '../../actions/web3'
 import { Button, CircularProgress, Grid, Typography } from '@material-ui/core'
-import { unstable_Box as Box } from '@material-ui/core/Box'
+import AppBar from '@material-ui/core/AppBar'
 import WalletMaker from '../wallet/create'
 import WalletLoader from '../wallet/load'
+import HomeIcon from '@material-ui/icons/Home'
 import WalletVoter from '../wallet/voting'
 import Home from '../home'
 
 const styles = theme => ({
   box: {
-    marginTop: 50,
+    marginTop: 75,
     width: '65%'
   },
   button: {
@@ -26,6 +27,11 @@ const styles = theme => ({
     display: 'block',
     height: '100%',
     width: '100%'
+  },
+  home: {
+    color: 'white',
+    fontFamily: 'Monospace',
+    fontSize: 28
   },
   title: {
     marginTop: 50,
@@ -50,16 +56,15 @@ class App extends Component {
 
   renderHeader = () => {
     const { classes } = this.props
-    return <header>
-      <Link to="/">
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}>
-          Home
-        </Button>
-      </Link>
-    </header>
+    return (
+      <AppBar className={classes.appbar}>
+        <Link to="/">
+          <Button className={classes.button}>
+            <Typography className={classes.home}>HOME</Typography>
+          </Button>
+        </Link>
+      </AppBar>
+    )
   }
 
   renderLoading = () => (

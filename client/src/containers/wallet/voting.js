@@ -14,7 +14,7 @@ import { unstable_Box as Box } from '@material-ui/core/Box'
 
 const styles = theme => ({
   box: {
-    marginTop: 50,
+    marginTop: 100,
     width: '65%'
   },
   inputBox: {
