@@ -19,6 +19,8 @@ export default (state = initialState, action) => {
             return {...state, loadPending: false, createPending: true}
         case LOAD_WALLET:
             return {...state, createPending: false, loadPending: true}
+        case 'CLEAR_STORE':
+            return initialState
         default:
             return state
     }
