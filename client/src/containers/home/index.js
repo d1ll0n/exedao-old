@@ -5,7 +5,7 @@ import { push } from 'connected-react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { loadWeb3 } from '../../actions/web3'
-import {clearStore} from '../../actions/wallet'
+import { clearStore } from '../../actions/wallet'
 import { Button, CircularProgress, Grid, Typography } from '@material-ui/core'
 import { unstable_Box as Box } from '@material-ui/core/Box'
 
@@ -58,7 +58,7 @@ class Home extends Component {
           <Grid container alignItems="center" justify="center">
             <Grid item>
               <Typography variant="h2" className={classes.title}>
-                M3GA WALLET
+                EXEdao
               </Typography>
             </Grid>
           </Grid>
