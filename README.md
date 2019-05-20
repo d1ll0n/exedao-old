@@ -1,5 +1,7 @@
 # EXEdao
 
+Check out the contract in test > 
+
 ## Inspiration
 We wanted a dynamic DAO that wasn't limited to executing a handful of immutable functions that are determined at deployment.
 
