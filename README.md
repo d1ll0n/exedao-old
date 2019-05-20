@@ -1,6 +1,6 @@
 # EXEdao
 
-Check out the contract in test > 
+Check out the contract in test > sol > contracts > M3gawallet.sol
 
 ## Inspiration
 We wanted a dynamic DAO that wasn't limited to executing a handful of immutable functions that are determined at deployment.
